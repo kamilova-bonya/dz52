@@ -1,12 +1,28 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TodoFormComponent } from './todo-form/todo-form.component';
+import { TodoItemComponent } from './todo-item/todo-item.component';
+import { Todo } from './models/todo.models';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule, TodoFormComponent, TodoItemComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'dz52';
+  todos: Todo[] = [];
+  nextId = 1;
+
+  addTodo(text: string) {
+    this.todos.push({
+      id: this.nextId++, text,
+      completed: false
+    });
+  }
+
+  deleteTodo(id: number) {
+    this.todos = this.todos.filter(todo => todo.id !== id);
+  }
 }
